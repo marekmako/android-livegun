@@ -1,5 +1,7 @@
 package com.app.maki.livegun;
 
+import android.graphics.Rect;
+
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
@@ -35,5 +37,10 @@ public class EffectsFaceTracker extends Tracker<Face> {
     @Override
     public void onDone() {
         super.onDone();
+        overlay.remove(graphics);
+    }
+
+    public Rect getFaceRect() {
+        return graphics.getFaceRect();
     }
 }

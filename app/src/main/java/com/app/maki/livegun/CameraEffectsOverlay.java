@@ -2,9 +2,12 @@ package com.app.maki.livegun;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.common.images.Size;
@@ -20,10 +23,12 @@ public class CameraEffectsOverlay extends View {
     final private Object lock = new Object();
 
     private int cameraPreviewWidth;
-    private int getCameraPreviewHeight;
+    private int cameraPreviewHeight;
 
     private float widthScaleFactor;
     private float heightScaleFactor;
+
+    private Rect layoutRect;
 
     private Set<Graphic> graphics = new HashSet<>();
 
@@ -57,10 +62,10 @@ public class CameraEffectsOverlay extends View {
                 // Swap width and height sizes when in portrait, since it will be rotated by
                 // 90 degrees
                 cameraPreviewWidth = min;
-                getCameraPreviewHeight = max;
+                cameraPreviewHeight = max;
             } else {
                 cameraPreviewWidth = max;
-                getCameraPreviewHeight = min;
+                cameraPreviewHeight = min;
             }
         }
         postInvalidate();
@@ -92,6 +97,7 @@ public class CameraEffectsOverlay extends View {
                     CameraScreenUtils.isPortraitMode(getContext()));
 
             layout(rect.left, rect.top, rect.right, rect.bottom);
+            layoutRect = rect;
         }
     }
 
@@ -99,10 +105,25 @@ public class CameraEffectsOverlay extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+//        Paint paint = new Paint();
+//        paint.setColor(Color.RED);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(1);
+
+
+
         synchronized (lock) {
-            if ((cameraPreviewWidth != 0) && (getCameraPreviewHeight != 0)) {
+            if ((cameraPreviewWidth != 0) && (cameraPreviewHeight != 0)) {
                 widthScaleFactor = (float) canvas.getWidth() / (float) cameraPreviewWidth;
-                heightScaleFactor = (float) canvas.getHeight() / (float) getCameraPreviewHeight;
+                heightScaleFactor = (float) canvas.getHeight() / (float) cameraPreviewHeight;
+
+
+//                final float left = (layoutRect.centerX() - 100);
+//                final float top = (layoutRect.height() / 4 - 100);
+//                final float right = left + 200;
+//                final float bottom = top + 200;
+//                canvas.drawRect(left, top, right, bottom, paint);
+
 
                 for (Graphic graphic : graphics) {
                     graphic.draw(canvas);
@@ -132,6 +153,8 @@ public class CameraEffectsOverlay extends View {
          * @param canvas drawing canvas
          */
         public abstract void draw(Canvas canvas);
+
+        public abstract Rect getFaceRect();
 
         /**
          * Adjusts a horizontal value of the supplied value from the preview scale to the view

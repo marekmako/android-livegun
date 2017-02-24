@@ -36,7 +36,7 @@ public class FaceGraphics extends CameraEffectsOverlay.Graphic {
         paint.setStrokeWidth(5);
 
 
-        Rect faceRect = getFace();
+        Rect faceRect = getFaceRect();
         if (faceRect != null) {
             canvas.drawRect(faceRect.left, faceRect.top, faceRect.right, faceRect.bottom, paint);
         }
@@ -88,7 +88,9 @@ public class FaceGraphics extends CameraEffectsOverlay.Graphic {
     }
 
     @Nullable
-    private Rect getFace() {
+    public Rect getFaceRect() {
+        if (face == null) return null;
+
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
 
