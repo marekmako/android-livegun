@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.face.Face;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -105,24 +106,10 @@ public class CameraEffectsOverlay extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-//        Paint paint = new Paint();
-//        paint.setColor(Color.RED);
-//        paint.setStyle(Paint.Style.STROKE);
-//        paint.setStrokeWidth(1);
-
-
-
         synchronized (lock) {
             if ((cameraPreviewWidth != 0) && (cameraPreviewHeight != 0)) {
                 widthScaleFactor = (float) canvas.getWidth() / (float) cameraPreviewWidth;
                 heightScaleFactor = (float) canvas.getHeight() / (float) cameraPreviewHeight;
-
-
-//                final float left = (layoutRect.centerX() - 100);
-//                final float top = (layoutRect.height() / 4 - 100);
-//                final float right = left + 200;
-//                final float bottom = top + 200;
-//                canvas.drawRect(left, top, right, bottom, paint);
 
 
                 for (Graphic graphic : graphics) {
@@ -155,6 +142,8 @@ public class CameraEffectsOverlay extends View {
         public abstract void draw(Canvas canvas);
 
         public abstract Rect getFaceRect();
+
+        public abstract void updateFace(Face face);
 
         /**
          * Adjusts a horizontal value of the supplied value from the preview scale to the view

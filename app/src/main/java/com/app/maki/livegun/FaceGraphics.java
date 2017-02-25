@@ -1,10 +1,12 @@
 package com.app.maki.livegun;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -13,10 +15,13 @@ import com.google.android.gms.vision.face.Landmark;
 
 public class FaceGraphics extends CameraEffectsOverlay.Graphic {
 
+    private Context context;
     private Face face;
 
-    public FaceGraphics(CameraEffectsOverlay overlay) {
+
+    public FaceGraphics(@NonNull Context context, @NonNull CameraEffectsOverlay overlay) {
         super(overlay);
+        this.context = context;
     }
 
     public void updateFace(Face face) {
@@ -41,24 +46,40 @@ public class FaceGraphics extends CameraEffectsOverlay.Graphic {
             canvas.drawRect(faceRect.left, faceRect.top, faceRect.right, faceRect.bottom, paint);
         }
 
-        Point leftEyePoint = getFacePoint(Landmark.LEFT_EYE);
-        if (leftEyePoint != null) {
-            canvas.drawRect(leftEyePoint.x, leftEyePoint.y, leftEyePoint.x + 10, leftEyePoint.y + 10, paint);
-        }
-
-        Point rightEyePoint = getFacePoint(Landmark.RIGHT_EYE);
-        if (rightEyePoint != null) {
-            canvas.drawRect(rightEyePoint.x, rightEyePoint.y, rightEyePoint.x + 10, rightEyePoint.y + 10, paint);
-        }
+//        Point leftEyePoint = getFacePoint(Landmark.LEFT_EYE);
+//        if (leftEyePoint != null) {
+//            canvas.drawRect(leftEyePoint.x, leftEyePoint.y, leftEyePoint.x + 10, leftEyePoint.y + 10, paint);
+//        }
+//
+//        Point rightEyePoint = getFacePoint(Landmark.RIGHT_EYE);
+//        if (rightEyePoint != null) {
+//            canvas.drawRect(rightEyePoint.x, rightEyePoint.y, rightEyePoint.x + 10, rightEyePoint.y + 10, paint);
+//        }
+//
+//        Point nose = getFacePoint(Landmark.NOSE_BASE);
+//        if (nose != null) {
+//            canvas.drawRect(nose.x, nose.y, nose.x + 10, nose.y + 10, paint);
+//        }
+//
+//        Point bottomMouth = getFacePoint(Landmark.BOTTOM_MOUTH);
+//        if (bottomMouth != null) {
+//            canvas.drawRect(bottomMouth.x, bottomMouth.y, bottomMouth.x + 10, bottomMouth.y + 10, paint);
+//        }
 
         Point nose = getFacePoint(Landmark.NOSE_BASE);
         if (nose != null) {
-            canvas.drawRect(nose.x, nose.y, nose.x + 10, nose.y + 10, paint);
-        }
+            Drawable bloodEffect = context.getResources().getDrawable(R.drawable.ic_blood_effect);
 
-        Point bottomMouth = getFacePoint(Landmark.BOTTOM_MOUTH);
-        if (bottomMouth != null) {
-            canvas.drawRect(bottomMouth.x, bottomMouth.y, bottomMouth.x + 10, bottomMouth.y + 10, paint);
+            int bloodEffectWidth = faceRect.width() / 4;
+            int bloodEffectHeight = faceRect.height() / 4;
+
+            int left = nose.x - bloodEffectWidth / 2;
+            int top = nose.y;
+            int right = left + bloodEffectWidth;
+            int bottom = top + bloodEffectHeight;
+
+            bloodEffect.setBounds(new Rect(left, top, right, bottom));
+            bloodEffect.draw(canvas);
         }
     }
 

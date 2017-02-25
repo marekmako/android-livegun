@@ -9,11 +9,11 @@ import com.google.android.gms.vision.face.Face;
 public class EffectsFaceTracker extends Tracker<Face> {
 
     private CameraEffectsOverlay overlay;
-    private FaceGraphics graphics;
+    private CameraEffectsOverlay.Graphic graphics;
 
-    public EffectsFaceTracker(CameraEffectsOverlay overlay) {
+    public EffectsFaceTracker(CameraEffectsOverlay overlay, CameraEffectsOverlay.Graphic faceGraphic) {
         this.overlay = overlay;
-        graphics = new FaceGraphics(overlay);
+        this.graphics = faceGraphic;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class CameraActivity extends AppCompatActivity {
     private AnimationDrawable weaponAnimation;
 
     private EffectsFaceTracker faceTracker;
+    private FaceGraphics faceGraphics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,12 @@ public class CameraActivity extends AppCompatActivity {
         weaponImageView.setImageDrawable(weaponAnimation);
         weaponImageView.setOnClickListener(onShotListener);
 
-        faceTracker = new EffectsFaceTracker(cameraEffectsOverlay);
+
+        faceGraphics = new FaceGraphics(getApplicationContext(), cameraEffectsOverlay);
+
+        faceTracker = new EffectsFaceTracker(
+                cameraEffectsOverlay,
+                faceGraphics);
 
         // check camera permission
         int cameraPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -146,7 +152,7 @@ public class CameraActivity extends AppCompatActivity {
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setAutoFocusEnabled(true)
                 .setRequestedFps(60f)
-//                .setRequestedPreviewSize(640, 480)
+                .setRequestedPreviewSize(640, 480)
                 .build();
     }
 
