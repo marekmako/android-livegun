@@ -29,8 +29,6 @@ public class CameraEffectsOverlay extends View {
     private float widthScaleFactor;
     private float heightScaleFactor;
 
-    private Rect layoutRect;
-
     private Set<Graphic> graphics = new HashSet<>();
 
     public CameraEffectsOverlay(Context context) {
@@ -98,7 +96,6 @@ public class CameraEffectsOverlay extends View {
                     CameraScreenUtils.isPortraitMode(getContext()));
 
             layout(rect.left, rect.top, rect.right, rect.bottom);
-            layoutRect = rect;
         }
     }
 

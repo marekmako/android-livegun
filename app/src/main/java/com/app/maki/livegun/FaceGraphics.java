@@ -13,20 +13,43 @@ import android.support.annotation.Nullable;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class FaceGraphics extends CameraEffectsOverlay.Graphic {
 
     private Context context;
+
     private Face face;
+
+    final private Random random = new Random();
+
+    private ArrayList<String> availableEffectMethods = new ArrayList<String>();
+
+    private ArrayList<String> usedEffects = new ArrayList<String>();
 
 
     public FaceGraphics(@NonNull Context context, @NonNull CameraEffectsOverlay overlay) {
         super(overlay);
         this.context = context;
+
+        availableEffectMethods.add("drawBloodEffect");
     }
 
     public void updateFace(Face face) {
         this.face = face;
         postInvalidate();
+    }
+
+    public void onHit() {
+        if (availableEffectMethods.size() > 0) {
+            int index = random.nextInt(availableEffectMethods.size());
+            usedEffects.add(availableEffectMethods.get(index));
+            availableEffectMethods.remove(index);
+        }
     }
 
     @Override
@@ -40,41 +63,38 @@ public class FaceGraphics extends CameraEffectsOverlay.Graphic {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5);
 
-
         Rect faceRect = getFaceRect();
         if (faceRect != null) {
             canvas.drawRect(faceRect.left, faceRect.top, faceRect.right, faceRect.bottom, paint);
         }
 
-//        Point leftEyePoint = getFacePoint(Landmark.LEFT_EYE);
-//        if (leftEyePoint != null) {
-//            canvas.drawRect(leftEyePoint.x, leftEyePoint.y, leftEyePoint.x + 10, leftEyePoint.y + 10, paint);
-//        }
-//
-//        Point rightEyePoint = getFacePoint(Landmark.RIGHT_EYE);
-//        if (rightEyePoint != null) {
-//            canvas.drawRect(rightEyePoint.x, rightEyePoint.y, rightEyePoint.x + 10, rightEyePoint.y + 10, paint);
-//        }
-//
-//        Point nose = getFacePoint(Landmark.NOSE_BASE);
-//        if (nose != null) {
-//            canvas.drawRect(nose.x, nose.y, nose.x + 10, nose.y + 10, paint);
-//        }
-//
-//        Point bottomMouth = getFacePoint(Landmark.BOTTOM_MOUTH);
-//        if (bottomMouth != null) {
-//            canvas.drawRect(bottomMouth.x, bottomMouth.y, bottomMouth.x + 10, bottomMouth.y + 10, paint);
-//        }
+        for (String methodName : usedEffects) {
+            try {
+                Method method = this.getClass().getMethod(methodName, Canvas.class);
+                method.invoke(this, canvas);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        Point nose = getFacePoint(Landmark.NOSE_BASE);
-        if (nose != null) {
+    public void drawBloodEffect(@NonNull Canvas canvas) {
+        Rect faceRect = getFaceRect();
+        Point noseRect = getFacePoint(Landmark.NOSE_BASE);
+        if (faceRect != null && noseRect != null) {
             Drawable bloodEffect = context.getResources().getDrawable(R.drawable.ic_blood_effect);
 
             int bloodEffectWidth = faceRect.width() / 4;
             int bloodEffectHeight = faceRect.height() / 4;
 
-            int left = nose.x - bloodEffectWidth / 2;
-            int top = nose.y;
+            int left = noseRect.x - bloodEffectWidth / 2;
+            int top = noseRect.y;
             int right = left + bloodEffectWidth;
             int bottom = top + bloodEffectHeight;
 

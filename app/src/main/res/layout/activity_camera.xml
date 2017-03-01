@@ -31,7 +31,6 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        app:srcCompat="@drawable/ic_rifle1"
         android:id="@+id/iv_weapon"
         app:layout_constraintRight_toRightOf="@+id/sv_camera_preview"
         android:adjustViewBounds="true"

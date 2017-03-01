@@ -1,16 +1,13 @@
 package com.app.maki.livegun;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -33,23 +30,26 @@ public class CameraActivity extends AppCompatActivity {
     private ImageView aimImageView;
     private Rect aimRect;
 
-    private AnimationDrawable weaponAnimation;
-
     private EffectsFaceTracker faceTracker;
     private FaceGraphics faceGraphics;
+
+    private Weapon mWeaponPrototype;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        Intent intent = getIntent();
+        WeaponDataParcel weaponParcelPrototype = intent.getParcelableExtra(MainActivity.K_SELECTED_WEAPON);
+        mWeaponPrototype = new Weapon(getApplicationContext(), weaponParcelPrototype);
+
         cameraPreview = (CameraPreview) findViewById(R.id.sv_camera_preview);
         cameraEffectsOverlay = (CameraEffectsOverlay) findViewById(R.id.v_camera_effects_overlay);
         aimImageView = (ImageView) findViewById(R.id.iv_aim);
 
         ImageView weaponImageView = (ImageView) findViewById(R.id.iv_weapon);
-        weaponAnimation = (AnimationDrawable) getResources().getDrawable(R.drawable.rifle_animation);
-        weaponImageView.setImageDrawable(weaponAnimation);
+        weaponImageView.setImageDrawable(mWeaponPrototype.getWeaponShotAnimation());
         weaponImageView.setOnClickListener(onShotListener);
 
 
@@ -72,33 +72,14 @@ public class CameraActivity extends AppCompatActivity {
     private View.OnClickListener onShotListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            animate();
+            mWeaponPrototype.onShot();
 
             if (hitTarget()) {
-                Log.d("cam", "hit");
+                faceGraphics.onHit();
             }
         }
-
-        private void animate() {
-            int duration = 10;
-            for (int i = 0; i < weaponAnimation.getNumberOfFrames(); i++) {
-                duration += weaponAnimation.getDuration(i);
-            }
-
-            final Handler handler = new Handler();
-            final Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    weaponAnimation.stop();
-                    weaponAnimation.selectDrawable(0);
-                }
-            };
-            handler.postDelayed(runnable, duration);
-            weaponAnimation.start();
-        }
-
         private boolean hitTarget() {
-            Rect faceRect = faceTracker.getFaceRect();
+            final Rect faceRect = faceTracker.getFaceRect();
             if (faceRect != null) {
                 if (aimRect.centerX() >= faceRect.left && aimRect.centerX() <= faceRect.right &&
                         aimRect.centerY() >= faceRect.top && aimRect.centerY() <= faceRect.bottom) {
