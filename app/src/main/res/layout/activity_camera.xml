@@ -18,16 +18,14 @@
         app:layout_constraintVertical_bias="0.0"
         android:id="@+id/sv_camera_preview" />
 
-    <com.app.maki.livegun.CameraEffectsOverlay
+    <com.app.maki.livegun.EffectOverlaySurface
+        android:id="@+id/sv_effect_overlay"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/sv_camera_preview"
         app:layout_constraintTop_toTopOf="@+id/sv_camera_preview"
-        app:layout_constraintRight_toRightOf="@+id/sv_camera_preview"
         app:layout_constraintLeft_toLeftOf="@+id/sv_camera_preview"
-        android:layout_height="0dp"
-        android:id="@+id/v_camera_effects_overlay"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintRight_toRightOf="@+id/sv_camera_preview"
+        app:layout_constraintBottom_toBottomOf="@+id/sv_camera_preview"
+        android:layout_height="0dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -39,12 +37,12 @@
         android:layout_height="0dp" />
 
     <android.support.constraint.Guideline
-        android:layout_width="592dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/g_weapon_image"
         app:layout_constraintGuide_percent="0.35"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteY="156dp"
+        tools:layout_editor_absoluteY="211dp"
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
@@ -59,12 +57,12 @@
         android:cropToPadding="false" />
 
     <android.support.constraint.Guideline
-        android:layout_width="592dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/g_aim_image"
         app:layout_constraintGuide_percent="0.2"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteY="62dp"
+        tools:layout_editor_absoluteY="121dp"
         tools:layout_editor_absoluteX="0dp" />
 
 </android.support.constraint.ConstraintLayout>

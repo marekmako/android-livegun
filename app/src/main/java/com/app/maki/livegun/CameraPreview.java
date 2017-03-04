@@ -18,7 +18,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     private CameraSource cameraSource;
 
-    private CameraEffectsOverlay overlay;
+    private EffectOverlaySurface overlay;
 
     public CameraPreview(Context context) {
         super(context);
@@ -41,7 +41,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         getHolder().addCallback(this);
     }
 
-    public void start(@NonNull CameraSource cameraSource, @NonNull CameraEffectsOverlay overlay) throws IOException {
+    public void start(@NonNull CameraSource cameraSource, @NonNull EffectOverlaySurface overlay) throws IOException {
         startRequested = true;
         this.overlay = overlay;
         this.cameraSource = cameraSource;

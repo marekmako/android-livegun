@@ -8,10 +8,10 @@ import com.google.android.gms.vision.face.Face;
 
 public class EffectsFaceTracker extends Tracker<Face> {
 
-    private CameraEffectsOverlay overlay;
-    private CameraEffectsOverlay.Graphic graphics;
+    private EffectOverlaySurface overlay;
+    private EffectOverlaySurface.Graphic graphics;
 
-    public EffectsFaceTracker(CameraEffectsOverlay overlay, CameraEffectsOverlay.Graphic faceGraphic) {
+    public EffectsFaceTracker(EffectOverlaySurface overlay, EffectOverlaySurface.Graphic faceGraphic) {
         this.overlay = overlay;
         this.graphics = faceGraphic;
     }

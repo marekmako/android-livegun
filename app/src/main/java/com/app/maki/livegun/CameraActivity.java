@@ -25,7 +25,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private CameraPreview cameraPreview;
 
-    private CameraEffectsOverlay cameraEffectsOverlay;
+    private EffectOverlaySurface cameraEffectsOverlay;
 
     private ImageView aimImageView;
     private Rect aimRect;
@@ -45,7 +45,7 @@ public class CameraActivity extends AppCompatActivity {
         mWeaponPrototype = new Weapon(getApplicationContext(), weaponParcelPrototype);
 
         cameraPreview = (CameraPreview) findViewById(R.id.sv_camera_preview);
-        cameraEffectsOverlay = (CameraEffectsOverlay) findViewById(R.id.v_camera_effects_overlay);
+        cameraEffectsOverlay = (EffectOverlaySurface) findViewById(R.id.sv_effect_overlay);
         aimImageView = (ImageView) findViewById(R.id.iv_aim);
 
         ImageView weaponImageView = (ImageView) findViewById(R.id.iv_weapon);
@@ -120,7 +120,7 @@ public class CameraActivity extends AppCompatActivity {
                 .setMode(FaceDetector.FAST_MODE)
                 .setProminentFaceOnly(true)
                 .setTrackingEnabled(false)
-                .setMinFaceSize(0.15f)
+                .setMinFaceSize(0.10f)
                 .build();
 
         detector.setProcessor(new LargestFaceFocusingProcessor.Builder(detector, faceTracker).build());
@@ -132,7 +132,7 @@ public class CameraActivity extends AppCompatActivity {
        cameraSource = new CameraSource.Builder(getApplicationContext(), detector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setAutoFocusEnabled(true)
-                .setRequestedFps(60f)
+                .setRequestedFps(30f)
                 .setRequestedPreviewSize(640, 480)
                 .build();
     }
