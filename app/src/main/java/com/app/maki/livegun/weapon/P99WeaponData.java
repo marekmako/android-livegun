@@ -7,7 +7,9 @@ public class P99WeaponData extends WeaponDataParcel {
 
     public P99WeaponData() {
         super("P 99",
+                R.drawable.profile_p99,
                 R.drawable.anim_p99,
+                R.drawable.anim_one_shot,
                 R.raw.rifleshot,
                 10,
                 0);

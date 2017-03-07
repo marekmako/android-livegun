@@ -8,7 +8,9 @@ public class FlameMachineWeaponData extends WeaponDataParcel {
 
     public FlameMachineWeaponData() {
         super("Flame Machine",
+                R.drawable.profile_flamemachine,
                 R.drawable.anim_flame_machine,
+                R.drawable.anim_one_shot,
                 R.raw.rifleshot,
                 10,
                 0);

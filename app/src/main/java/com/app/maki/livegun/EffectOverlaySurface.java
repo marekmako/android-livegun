@@ -56,7 +56,9 @@ public final class EffectOverlaySurface extends SurfaceView implements SurfaceHo
     }
 
     private void init() {
-        setZOrderOnTop(true);
+        if (!isInEditMode()) {
+            setZOrderOnTop(true);
+        }
         getHolder().addCallback(this);
         getHolder().setFormat(PixelFormat.TRANSPARENT);
 

@@ -4,28 +4,45 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ImageView;
 
 public class Weapon {
 
     private Context mContext;
 
+    private AnimationDrawable mWaponAnimation;
+
     private AnimationDrawable mShotAnimation;
 
     private MediaPlayer mShotMediaPlayer;
 
+    @Nullable private ImageView mShotImageView;
+
     public Weapon(Context context, WeaponDataParcel weaponParcel) {
         mContext = context;
 
-        mShotAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableShootAnimation());
+        mWaponAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableWeaponAnimation());
+        mShotAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableShotAnimation());
         mShotMediaPlayer = MediaPlayer.create(mContext, weaponParcel.getRawShootSound());
     }
 
-    public AnimationDrawable getWeaponShotAnimation() {
+    public void setShotImageView(ImageView iv) {
+        mShotImageView = iv;
+    }
+
+    public AnimationDrawable getWeaponAnimation() {
+        return mWaponAnimation;
+    }
+
+    public AnimationDrawable getShotAnimation() {
         return mShotAnimation;
     }
 
     public void onShot() {
         shotAnimate();
+        weaponAnimate();
         shotPlaySound();
     }
 
@@ -41,10 +58,34 @@ public class Weapon {
             public void run() {
                 mShotAnimation.stop();
                 mShotAnimation.selectDrawable(0);
+                if (mShotImageView != null) {
+                    mShotImageView.setVisibility(View.INVISIBLE);
+                }
+            }
+        };
+        if (mShotImageView != null) {
+            mShotImageView.setVisibility(View.VISIBLE);
+        }
+        handler.postDelayed(runnable, duration);
+        mShotAnimation.start();
+    }
+
+    private void weaponAnimate() {
+        int duration = 10;
+        for (int i = 0; i < mWaponAnimation.getNumberOfFrames(); i++) {
+            duration += mWaponAnimation.getDuration(i);
+        }
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                mWaponAnimation.stop();
+                mWaponAnimation.selectDrawable(0);
             }
         };
         handler.postDelayed(runnable, duration);
-        mShotAnimation.start();
+        mWaponAnimation.start();
     }
 
     private void shotPlaySound() {

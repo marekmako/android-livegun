@@ -33,6 +33,8 @@ public class CameraActivity extends AppCompatActivity {
     private EffectsFaceTracker faceTracker;
     private FaceGraphics faceGraphics;
 
+    private ImageView mShotImageView;
+
     private Weapon mWeaponPrototype;
 
     @Override
@@ -49,9 +51,14 @@ public class CameraActivity extends AppCompatActivity {
         aimImageView = (ImageView) findViewById(R.id.iv_aim);
 
         ImageView weaponImageView = (ImageView) findViewById(R.id.iv_weapon);
-        weaponImageView.setImageDrawable(mWeaponPrototype.getWeaponShotAnimation());
+        weaponImageView.setImageDrawable(mWeaponPrototype.getWeaponAnimation());
         weaponImageView.setOnClickListener(onShotListener);
-
+        
+        mShotImageView = (ImageView) findViewById(R.id.iv_shot);
+        mShotImageView.setImageDrawable(mWeaponPrototype.getShotAnimation());
+        // TODO: 06/03/2017 nastavienie visibility presunut do weapon event onShot?
+        mWeaponPrototype.setShotImageView(mShotImageView);
+        mShotImageView.setVisibility(View.INVISIBLE);
 
         faceGraphics = new FaceGraphics(getApplicationContext(), cameraEffectsOverlay);
 

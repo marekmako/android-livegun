@@ -7,18 +7,24 @@ import android.os.Parcelable;
 public class WeaponDataParcel implements Parcelable {
 
     private String mName;
-    private int mDrawableShootAnimation;
+    private int mDrawableProfile;
+    private int mDrawableWeaponAnimation;
+    private int mDrawableShotAnimation;
     private int mRawShootSound;
     private int mHitRandomIndex;
     private int mDemageIndex;
 
     public WeaponDataParcel(String name,
-                            int drawableShootAnimation,
+                            int drawableProfile,
+                            int drawableWeaponAnimation,
+                            int drawableShotAnimation,
                             int rawShotSound,
                             int hitRandomIndex,
                             int demageIndex) {
         mName = name;
-        mDrawableShootAnimation = drawableShootAnimation;
+        mDrawableProfile = drawableProfile;
+        mDrawableWeaponAnimation = drawableWeaponAnimation;
+        mDrawableShotAnimation = drawableShotAnimation;
         mRawShootSound = rawShotSound;
         mHitRandomIndex = hitRandomIndex;
         mDemageIndex = demageIndex;
@@ -26,7 +32,9 @@ public class WeaponDataParcel implements Parcelable {
 
     private WeaponDataParcel(Parcel source) {
         mName = source.readString();
-        mDrawableShootAnimation = source.readInt();
+        mDrawableProfile = source.readInt();
+        mDrawableWeaponAnimation = source.readInt();
+        mDrawableShotAnimation = source.readInt();
         mRawShootSound = source.readInt();
         mHitRandomIndex = source.readInt();
         mDemageIndex = source.readInt();
@@ -35,7 +43,9 @@ public class WeaponDataParcel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
-        dest.writeInt(mDrawableShootAnimation);
+        dest.writeInt(mDrawableProfile);
+        dest.writeInt(mDrawableWeaponAnimation);
+        dest.writeInt(mDrawableShotAnimation);
         dest.writeInt(mRawShootSound);
         dest.writeInt(mHitRandomIndex);
         dest.writeInt(mDemageIndex);
@@ -62,8 +72,16 @@ public class WeaponDataParcel implements Parcelable {
         return mName;
     }
 
-    public int getDrawableShootAnimation() {
-        return mDrawableShootAnimation;
+    public int getDrawableProfile() {
+        return mDrawableProfile;
+    }
+
+    public int getDrawableWeaponAnimation() {
+        return mDrawableWeaponAnimation;
+    }
+
+    public int getDrawableShotAnimation() {
+        return mDrawableShotAnimation;
     }
 
     public int getRawShootSound() {

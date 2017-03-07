@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -54,9 +55,11 @@ public class WeaponSlidePageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_weapon_slide_page, container, false);
 
         TextView weaponNameTextView = (TextView) view.findViewById(R.id.tv_weapon_name);
+        ImageView weaponImageView = (ImageView) view.findViewById(R.id.iv_weapon_profile);
 
         if (mWeaponData != null) {
             weaponNameTextView.setText(mWeaponData.getName());
+            weaponImageView.setImageDrawable(getResources().getDrawable(mWeaponData.getDrawableProfile()));
         }
 
         Button selectedWeaponButton = (Button) view.findViewById(R.id.b_selected_weapon);
