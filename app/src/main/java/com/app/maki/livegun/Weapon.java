@@ -2,13 +2,15 @@ package com.app.maki.livegun;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
-public class Weapon {
+class Weapon /*implements SoundPool.OnLoadCompleteListener*/ {
 
     private Context mContext;
 
@@ -16,31 +18,34 @@ public class Weapon {
 
     private AnimationDrawable mShotAnimation;
 
-    private MediaPlayer mShotMediaPlayer;
+    private int mShotSoundResource;
 
     @Nullable private ImageView mShotImageView;
 
-    public Weapon(Context context, WeaponDataParcel weaponParcel) {
+    private SharedSoundPool mSoundPool = SharedSoundPool.getInstance();
+
+
+    Weapon(Context context, WeaponDataParcel weaponParcel) {
         mContext = context;
 
         mWaponAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableWeaponAnimation());
         mShotAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableShotAnimation());
-        mShotMediaPlayer = MediaPlayer.create(mContext, weaponParcel.getRawShootSound());
-    }
+        mShotSoundResource = weaponParcel.getRawShootSound();
+}
 
-    public void setShotImageView(ImageView iv) {
+    void setShotImageView(ImageView iv) {
         mShotImageView = iv;
     }
 
-    public AnimationDrawable getWeaponAnimation() {
+    AnimationDrawable getWeaponAnimation() {
         return mWaponAnimation;
     }
 
-    public AnimationDrawable getShotAnimation() {
+    AnimationDrawable getShotAnimation() {
         return mShotAnimation;
     }
 
-    public void onShot() {
+    void onShot() {
         shotAnimate();
         weaponAnimate();
         shotPlaySound();
@@ -89,8 +94,7 @@ public class Weapon {
     }
 
     private void shotPlaySound() {
-        mShotMediaPlayer.start();
+        mSoundPool.playEffectSound(mShotSoundResource, mContext);
     }
-
 
 }

@@ -4,4 +4,6 @@
     <item android:drawable="@drawable/ic_xpr50_1" android:duration="100"/>
     <item android:drawable="@drawable/ic_xpr50_2" android:duration="100"/>
     <item android:drawable="@drawable/ic_xpr50_3" android:duration="100"/>
+    <item android:drawable="@drawable/ic_xpr50_2" android:duration="100"/>
+    <item android:drawable="@drawable/ic_xpr50_3" android:duration="100"/>
 </animation-list>

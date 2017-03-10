@@ -10,8 +10,8 @@ public class BazookaWeaponData extends WeaponDataParcel {
         super("Bazooka",
                 R.drawable.profile_bazooka,
                 R.drawable.anim_bazooka,
-                R.drawable.anim_one_shot,
-                R.raw.rifleshot,
+                R.drawable.anim_shot_explosion,
+                R.raw.bazooka_sound,
                 10,
                 0);
     }

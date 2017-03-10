@@ -9,8 +9,8 @@ public final class MachineGunWeaponData extends WeaponDataParcel {
         super("Machine Gun",
                 R.drawable.profile_machinegun,
                 R.drawable.anim_machine_gun,
-                R.drawable.anim_one_shot,
-                R.raw.rifleshot,
+                R.drawable.anim_shot_ten,
+                R.raw.machinegun_sound,
                 10,
                 0);
     }

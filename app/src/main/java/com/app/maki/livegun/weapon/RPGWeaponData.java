@@ -9,8 +9,8 @@ public final class RPGWeaponData extends WeaponDataParcel {
         super("RPG",
                 R.drawable.pofile_rpg,
                 R.drawable.anim_rpg,
-                R.drawable.anim_one_shot,
-                R.raw.rifleshot,
+                R.drawable.anim_shot_explosion,
+                R.raw.rpg_sound,
                 10,
                 0);
     }

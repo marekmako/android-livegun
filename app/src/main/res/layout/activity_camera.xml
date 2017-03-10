@@ -70,8 +70,8 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:srcCompat="@drawable/shot1"
         android:id="@+id/iv_shot"
         app:layout_constraintLeft_toLeftOf="@+id/iv_aim"

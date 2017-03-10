@@ -8,6 +8,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -17,9 +20,13 @@ import com.google.android.gms.vision.face.Landmark;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
-public class FaceGraphics extends EffectOverlaySurface.Graphic {
+class FaceGraphics extends EffectOverlaySurface.Graphic {
 
     final private Object mLock = new Object();
 
@@ -33,32 +40,59 @@ public class FaceGraphics extends EffectOverlaySurface.Graphic {
 
     private ArrayList<String> mUsedEffects = new ArrayList<String>();
 
+    private SharedSoundPool mSoundPool = SharedSoundPool.getInstance();
 
-    public FaceGraphics(@NonNull Context context, @NonNull EffectOverlaySurface overlay) {
+    FaceGraphics(@NonNull Context context, @NonNull EffectOverlaySurface overlay) {
         super(overlay);
         this.mContext = context;
 
-        mAvailableEffectMethods.add("drawKrvavePraveOko");
-        mAvailableEffectMethods.add("drawKrvaveUsta");
-        mAvailableEffectMethods.add("drawVrtackaLaveLico");
-        mAvailableEffectMethods.add("drawNozCeloLave");
-        mAvailableEffectMethods.add("drawSekeraCeloPrave");
-        mAvailableEffectMethods.add("drawRanaCeloStred");
+//        mAvailableEffectMethods.add("drawKrvavePraveOko");
+//        mAvailableEffectMethods.add("drawKrvaveUsta");
+//        mAvailableEffectMethods.add("drawVrtackaLaveLico");
+//        mAvailableEffectMethods.add("drawNozCeloLave");
+//        mAvailableEffectMethods.add("drawSekeraCeloPrave");
+//        mAvailableEffectMethods.add("drawRanaCeloStred");
+
+
         mAvailableEffectMethods.add("drawModrinaOkoLave");
-        mAvailableEffectMethods.add("drawRanaNos");
-    }
+        mAvailableEffectMethods.add("drawModrinaOkoLave");
+        mAvailableEffectMethods.add("drawModrinaOkoLave");
+        mAvailableEffectMethods.add("drawModrinaOkoLave");
+//        mAvailableEffectMethods.add("drawRanaNos");
+//        mAvailableEffectMethods.add("drawRanaNos");
+//        mAvailableEffectMethods.add("drawRanaNos");
+//        mAvailableEffectMethods.add("drawRanaNos");
+
+}
 
     public void updateFace(Face face) {
         this.mFace = face;
         postInvalidate();
     }
 
-    public void onHit() {
+    void onHit() {
         synchronized (mLock) {
             if (mAvailableEffectMethods.size() > 0) {
                 int index = mRandom.nextInt(mAvailableEffectMethods.size());
-                mUsedEffects.add(mAvailableEffectMethods.get(index));
+
+                final String effectMethodName = mAvailableEffectMethods.get(index);
+                final String soundMethodName = effectMethodName + "Sound";
+
+                mUsedEffects.add(effectMethodName);
                 mAvailableEffectMethods.remove(index);
+
+
+                // play sound if available
+                try {
+                    Method method = this.getClass().getMethod(soundMethodName);
+                    method.invoke(this);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -122,6 +156,10 @@ public class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
     }
 
+//    public void drawRanaNosSound() {
+//        playEffectSound(R.raw.rana_nos_sound);
+//    }
+
     public void drawModrinaOkoLave(@NonNull Canvas canvas) {
         Rect faceRect = getFaceRect();
         Point facePart = getFacePoint(Landmark.LEFT_EYE);
@@ -145,6 +183,10 @@ public class FaceGraphics extends EffectOverlaySurface.Graphic {
             effect.setBounds(rect);
             effect.draw(canvas);
         }
+    }
+
+    public void drawModrinaOkoLaveSound() {
+        playEffectSound(R.raw.modrina_oko_lave_sound);
     }
 
     public void drawRanaCeloStred(@NonNull Canvas canvas) {
@@ -293,11 +335,13 @@ public class FaceGraphics extends EffectOverlaySurface.Graphic {
             Rect rect = new Rect();
             rectF.round(rect);
 
-//            Log.d("LOG", "Oko" + rect.toString());
-
             effect.setBounds(rect);
             effect.draw(canvas);
         }
+    }
+
+    private void playEffectSound(int resource) {
+        mSoundPool.playEffectSound(resource, mContext);
     }
 
     @Nullable

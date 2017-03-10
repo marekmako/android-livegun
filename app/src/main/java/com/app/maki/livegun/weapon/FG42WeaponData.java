@@ -10,8 +10,8 @@ public class FG42WeaponData extends WeaponDataParcel {
         super("FG 42",
                 R.drawable.profile_fg42,
                 R.drawable.anim_fg42,
-                R.drawable.anim_one_shot,
-                R.raw.rifleshot,
+                R.drawable.anim_shot_five,
+                R.raw.fg42_sound,
                 10,
                 0);
     }

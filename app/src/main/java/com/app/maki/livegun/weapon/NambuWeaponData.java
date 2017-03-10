@@ -9,8 +9,8 @@ public class NambuWeaponData extends WeaponDataParcel {
         super("Nambu",
                 R.drawable.profile_nambu,
                 R.drawable.anim_nambu,
-                R.drawable.anim_one_shot,
-                R.raw.rifleshot,
+                R.drawable.anim_shot_one,
+                R.raw.nambu_shot,
                 10,
                 0);
     }
