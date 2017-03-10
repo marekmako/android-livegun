@@ -18,6 +18,7 @@ import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.Face;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -38,7 +39,8 @@ public final class EffectOverlaySurface extends SurfaceView implements SurfaceHo
     private Set<EffectOverlaySurface.Graphic> graphics = new HashSet<>();
 
     private Paint mTestPaint = new Paint();
-    private Random mRandom = new Random();
+
+    private ArrayList<Drawable> mBloodOnScreen = new ArrayList<>();
 
     public EffectOverlaySurface(Context context) {
         super(context);
@@ -85,6 +87,14 @@ public final class EffectOverlaySurface extends SurfaceView implements SurfaceHo
 
     }
 
+    public void onHit() {
+        synchronized (mDrawThread.mLock) {
+            mBloodOnScreen.add(getResources().getDrawable(R.drawable.krv_obrazovka));
+            if (mBloodOnScreen.size() > 10) {
+                mBloodOnScreen.remove(0);
+            }
+        }
+    }
 
 
     @Override
@@ -139,11 +149,13 @@ public final class EffectOverlaySurface extends SurfaceView implements SurfaceHo
 
     private class DrawTread extends Thread {
 
-        final private Object mLock = new Object();
+        final Object mLock = new Object();
 
         private SurfaceHolder mSurfaceHolder;
 
         private boolean mIsRunning = false;
+
+        private Random mRandom = new Random();
 
         public DrawTread(@NonNull SurfaceHolder surfaceHolder) {
             mSurfaceHolder = surfaceHolder;
@@ -186,14 +198,30 @@ public final class EffectOverlaySurface extends SurfaceView implements SurfaceHo
         private void draw(Canvas canvas) {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
+            drawBlood(canvas);
+
             if ((mCameraPreviewWidth != 0) && (mCameraPreviewHeight != 0)) {
                 mWidthScaleFactor = (float) canvas.getWidth() / (float) mCameraPreviewWidth;
                 mHeightScaleFactor = (float) canvas.getHeight() / (float) mCameraPreviewHeight;
 
-
                 for (EffectOverlaySurface.Graphic graphic : graphics) {
                     graphic.draw(canvas);
                 }
+            }
+        }
+
+        private void drawBlood(Canvas canvas) {
+            for (Drawable blood : mBloodOnScreen) {
+                Rect bloodRect = blood.getBounds();
+                // nebol este pouzity, umiestnim ho
+                if (bloodRect.left == 0 && bloodRect.top == 0 && bloodRect.right == 0 && bloodRect.bottom == 0) {
+                    final int randScale = mRandom.nextInt(4) + 1;
+                    final int dimension = canvas.getHeight() * randScale / 10;
+                    final int x = mRandom.nextInt(canvas.getWidth() - dimension) ;
+                    final int y = mRandom.nextInt(canvas.getHeight() - dimension);
+                    bloodRect.set(x, y, x + dimension, y + dimension);
+                }
+                blood.draw(canvas);
             }
         }
     }

@@ -21,17 +21,17 @@ public class CameraActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERM_CODE = 2;
 
-    private CameraSource cameraSource;
+    private CameraSource mCameraSource;
 
-    private CameraPreview cameraPreview;
+    private CameraPreview mCameraPreview;
 
-    private EffectOverlaySurface cameraEffectsOverlay;
+    private EffectOverlaySurface mCameraEffectsOverlay;
 
-    private ImageView aimImageView;
-    private Rect aimRect;
+    private ImageView mAimImageView;
+    private Rect mAimRect;
 
-    private EffectsFaceTracker faceTracker;
-    private FaceGraphics faceGraphics;
+    private EffectsFaceTracker mFaceTracker;
+    private FaceGraphics mFaceGraphics;
 
     private ImageView mShotImageView;
 
@@ -46,9 +46,9 @@ public class CameraActivity extends AppCompatActivity {
         WeaponDataParcel weaponParcelPrototype = intent.getParcelableExtra(MainActivity.K_SELECTED_WEAPON);
         mWeaponPrototype = new Weapon(getApplicationContext(), weaponParcelPrototype);
 
-        cameraPreview = (CameraPreview) findViewById(R.id.sv_camera_preview);
-        cameraEffectsOverlay = (EffectOverlaySurface) findViewById(R.id.sv_effect_overlay);
-        aimImageView = (ImageView) findViewById(R.id.iv_aim);
+        mCameraPreview = (CameraPreview) findViewById(R.id.sv_camera_preview);
+        mCameraEffectsOverlay = (EffectOverlaySurface) findViewById(R.id.sv_effect_overlay);
+        mAimImageView = (ImageView) findViewById(R.id.iv_aim);
 
         ImageView weaponImageView = (ImageView) findViewById(R.id.iv_weapon);
         weaponImageView.setImageDrawable(mWeaponPrototype.getWeaponAnimation());
@@ -56,15 +56,14 @@ public class CameraActivity extends AppCompatActivity {
         
         mShotImageView = (ImageView) findViewById(R.id.iv_shot);
         mShotImageView.setImageDrawable(mWeaponPrototype.getShotAnimation());
-        // TODO: 06/03/2017 nastavienie visibility presunut do weapon event onShot?
         mWeaponPrototype.setShotImageView(mShotImageView);
         mShotImageView.setVisibility(View.INVISIBLE);
 
-        faceGraphics = new FaceGraphics(getApplicationContext(), cameraEffectsOverlay);
+        mFaceGraphics = new FaceGraphics(getApplicationContext(), mCameraEffectsOverlay);
 
-        faceTracker = new EffectsFaceTracker(
-                cameraEffectsOverlay,
-                faceGraphics);
+        mFaceTracker = new EffectsFaceTracker(
+                mCameraEffectsOverlay,
+                mFaceGraphics);
 
         // check camera permission
         int cameraPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -82,14 +81,15 @@ public class CameraActivity extends AppCompatActivity {
             mWeaponPrototype.onShot();
 
             if (hitTarget()) {
-                faceGraphics.onHit();
+                mCameraEffectsOverlay.onHit();
+                mFaceGraphics.onHit();
             }
         }
         private boolean hitTarget() {
-            final Rect faceRect = faceTracker.getFaceRect();
+            final Rect faceRect = mFaceTracker.getFaceRect();
             if (faceRect != null) {
-                if (aimRect.centerX() >= faceRect.left && aimRect.centerX() <= faceRect.right &&
-                        aimRect.centerY() >= faceRect.top && aimRect.centerY() <= faceRect.bottom) {
+                if (mAimRect.centerX() >= faceRect.left && mAimRect.centerX() <= faceRect.right &&
+                        mAimRect.centerY() >= faceRect.top && mAimRect.centerY() <= faceRect.bottom) {
                     return true;
                 }
             }
@@ -130,13 +130,13 @@ public class CameraActivity extends AppCompatActivity {
                 .setMinFaceSize(0.10f)
                 .build();
 
-        detector.setProcessor(new LargestFaceFocusingProcessor.Builder(detector, faceTracker).build());
+        detector.setProcessor(new LargestFaceFocusingProcessor.Builder(detector, mFaceTracker).build());
 
         if (!detector.isOperational()) {
             // TODO: kniznica nebola stiahnuta
         }
 
-       cameraSource = new CameraSource.Builder(getApplicationContext(), detector)
+       mCameraSource = new CameraSource.Builder(getApplicationContext(), detector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setAutoFocusEnabled(true)
                 .setRequestedFps(30f)
@@ -148,12 +148,12 @@ public class CameraActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (cameraSource != null) {
+        if (mCameraSource != null) {
             try {
-                cameraPreview.start(cameraSource, cameraEffectsOverlay);
+                mCameraPreview.start(mCameraSource, mCameraEffectsOverlay);
             } catch (IOException e) {
-                cameraSource.release();
-                cameraSource = null;
+                mCameraSource.release();
+                mCameraSource = null;
                 e.printStackTrace();
             }
         }
@@ -168,8 +168,8 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (cameraSource != null) {
-            cameraSource.release();
+        if (mCameraSource != null) {
+            mCameraSource.release();
         }
     }
 
@@ -177,10 +177,10 @@ public class CameraActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        aimRect = new Rect();
-        aimRect.left = aimImageView.getLeft();
-        aimRect.top = aimImageView.getTop();
-        aimRect.right = aimImageView.getRight();
-        aimRect.bottom = aimImageView.getBottom();
+        mAimRect = new Rect();
+        mAimRect.left = mAimImageView.getLeft();
+        mAimRect.top = mAimImageView.getTop();
+        mAimRect.right = mAimImageView.getRight();
+        mAimRect.bottom = mAimImageView.getBottom();
     }
 }
