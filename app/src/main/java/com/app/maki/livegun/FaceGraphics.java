@@ -45,24 +45,14 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
     FaceGraphics(@NonNull Context context, @NonNull EffectOverlaySurface overlay) {
         super(overlay);
         this.mContext = context;
-
-//        mAvailableEffectMethods.add("drawKrvavePraveOko");
-//        mAvailableEffectMethods.add("drawKrvaveUsta");
-//        mAvailableEffectMethods.add("drawVrtackaLaveLico");
-//        mAvailableEffectMethods.add("drawNozCeloLave");
-//        mAvailableEffectMethods.add("drawSekeraCeloPrave");
-//        mAvailableEffectMethods.add("drawRanaCeloStred");
-
-
+        mAvailableEffectMethods.add("drawNozCeloLave");
+        mAvailableEffectMethods.add("drawVrtackaLaveLico");
+        mAvailableEffectMethods.add("drawSekeraCeloPrave");
+        mAvailableEffectMethods.add("drawKrvaveUsta");
         mAvailableEffectMethods.add("drawModrinaOkoLave");
-        mAvailableEffectMethods.add("drawModrinaOkoLave");
-        mAvailableEffectMethods.add("drawModrinaOkoLave");
-        mAvailableEffectMethods.add("drawModrinaOkoLave");
-//        mAvailableEffectMethods.add("drawRanaNos");
-//        mAvailableEffectMethods.add("drawRanaNos");
-//        mAvailableEffectMethods.add("drawRanaNos");
-//        mAvailableEffectMethods.add("drawRanaNos");
-
+        mAvailableEffectMethods.add("drawRanaNos");
+        mAvailableEffectMethods.add("drawKrvavePraveOko");
+        mAvailableEffectMethods.add("drawRanaCeloStred");
 }
 
     public void updateFace(Face face) {
@@ -156,9 +146,9 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
     }
 
-//    public void drawRanaNosSound() {
-//        playEffectSound(R.raw.rana_nos_sound);
-//    }
+    public void drawRanaNosSound() {
+        playEffectSound(R.raw.effect_rana_nos_sound);
+    }
 
     public void drawModrinaOkoLave(@NonNull Canvas canvas) {
         Rect faceRect = getFaceRect();
@@ -186,7 +176,7 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
     }
 
     public void drawModrinaOkoLaveSound() {
-        playEffectSound(R.raw.modrina_oko_lave_sound);
+        playEffectSound(R.raw.effect_modrina_oko_lave_sound);
     }
 
     public void drawRanaCeloStred(@NonNull Canvas canvas) {
@@ -214,6 +204,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
     }
 
+    public void drawRanaCeloStredSound() {
+        playEffectSound(R.raw.effect_rana_celo_stred_sound);
+    }
+
     public void drawSekeraCeloPrave(@NonNull Canvas canvas) {
         Rect faceRect = getFaceRect();
         Point facePart = getFacePoint(Landmark.RIGHT_EYE);
@@ -237,6 +231,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
             effect.setBounds(rect);
             effect.draw(canvas);
         }
+    }
+
+    public void drawSekeraCeloPraveSound() {
+        playEffectSound(R.raw.effect_sekera_celo_prave_sound);
     }
 
     public void drawNozCeloLave(@NonNull Canvas canvas) {
@@ -264,6 +262,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
     }
 
+    public void drawNozCeloLaveSound() {
+        playEffectSound(R.raw.effect_noz_celo_lave);
+    }
+
     public void drawVrtackaLaveLico(@NonNull Canvas canvas) {
         Rect faceRect = getFaceRect();
         Point facePart = getFacePoint(Landmark.LEFT_CHEEK);
@@ -287,6 +289,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
             effect.setBounds(rect);
             effect.draw(canvas);
         }
+    }
+
+    public void drawVrtackaLaveLicoSound() {
+        playEffectSound(R.raw.effect_vrtacka_lave_lico_sound);
     }
 
     public void drawKrvaveUsta(@NonNull Canvas canvas) {
@@ -314,6 +320,9 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
     }
 
+    public void drawKrvaveUstaSound() {
+        playEffectSound(R.raw.effect_krvave_usta_sound);
+    }
 
     public void drawKrvavePraveOko(@NonNull Canvas canvas) {
         Rect faceRect = getFaceRect();
@@ -338,6 +347,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
             effect.setBounds(rect);
             effect.draw(canvas);
         }
+    }
+
+    public void drawKrvavePraveOkoSound() {
+        playEffectSound(R.raw.effect_krvave_prave_oko_sound);
     }
 
     private void playEffectSound(int resource) {

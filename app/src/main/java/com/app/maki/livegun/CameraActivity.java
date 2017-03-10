@@ -8,8 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -35,7 +37,11 @@ public class CameraActivity extends AppCompatActivity {
 
     private ImageView mShotImageView;
 
-    private Weapon mWeaponPrototype;
+    private Weapon mWeapon;
+
+    private OponentHealt mOponentHealt;
+
+    private int mCameraFacing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +50,20 @@ public class CameraActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         WeaponDataParcel weaponParcelPrototype = intent.getParcelableExtra(MainActivity.K_SELECTED_WEAPON);
-        mWeaponPrototype = new Weapon(getApplicationContext(), weaponParcelPrototype);
+        mWeapon = new Weapon(getApplicationContext(), weaponParcelPrototype);
+        mCameraFacing = intent.getIntExtra(MainActivity.K_CAMERA_FACING, CameraSource.CAMERA_FACING_BACK);
 
         mCameraPreview = (CameraPreview) findViewById(R.id.sv_camera_preview);
         mCameraEffectsOverlay = (EffectOverlaySurface) findViewById(R.id.sv_effect_overlay);
         mAimImageView = (ImageView) findViewById(R.id.iv_aim);
 
         ImageView weaponImageView = (ImageView) findViewById(R.id.iv_weapon);
-        weaponImageView.setImageDrawable(mWeaponPrototype.getWeaponAnimation());
+        weaponImageView.setImageDrawable(mWeapon.getWeaponAnimation());
         weaponImageView.setOnClickListener(onShotListener);
         
         mShotImageView = (ImageView) findViewById(R.id.iv_shot);
-        mShotImageView.setImageDrawable(mWeaponPrototype.getShotAnimation());
-        mWeaponPrototype.setShotImageView(mShotImageView);
+        mShotImageView.setImageDrawable(mWeapon.getShotAnimation());
+        mWeapon.setShotImageView(mShotImageView);
         mShotImageView.setVisibility(View.INVISIBLE);
 
         mFaceGraphics = new FaceGraphics(getApplicationContext(), mCameraEffectsOverlay);
@@ -64,6 +71,14 @@ public class CameraActivity extends AppCompatActivity {
         mFaceTracker = new EffectsFaceTracker(
                 mCameraEffectsOverlay,
                 mFaceGraphics);
+
+        mOponentHealt = new OponentHealt(getApplicationContext(), (ProgressBar) findViewById(R.id.pb_healt));
+        mOponentHealt.deathListener = new OponentHealt.DeathListener() {
+            @Override
+            public void onDeath() {
+                Log.d("LOG", "oponent was death");
+            }
+        };
 
         // check camera permission
         int cameraPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -78,11 +93,12 @@ public class CameraActivity extends AppCompatActivity {
     private View.OnClickListener onShotListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mWeaponPrototype.onShot();
+            mWeapon.onShot();
 
             if (hitTarget()) {
                 mCameraEffectsOverlay.onHit();
                 mFaceGraphics.onHit();
+                mOponentHealt.onHit(mWeapon);
             }
         }
         private boolean hitTarget() {
@@ -137,7 +153,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
        mCameraSource = new CameraSource.Builder(getApplicationContext(), detector)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setFacing(mCameraFacing)
                 .setAutoFocusEnabled(true)
                 .setRequestedFps(30f)
                 .setRequestedPreviewSize(640, 480)

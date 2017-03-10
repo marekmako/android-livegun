@@ -77,4 +77,25 @@
         app:layout_constraintLeft_toLeftOf="@+id/iv_aim"
         app:layout_constraintTop_toTopOf="@+id/iv_aim" />
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_height="wrap_content"
+        android:id="@+id/pb_healt"
+        app:layout_constraintRight_toRightOf="@+id/sv_effect_overlay"
+        app:layout_constraintTop_toTopOf="@+id/sv_effect_overlay"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/g_pb_healt"
+        android:layout_width="0dp" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="0dp"
+        android:layout_height="339dp"
+        android:id="@+id/g_pb_healt"
+        app:layout_constraintGuide_percent="0.7057101"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="482dp" />
+
 </android.support.constraint.ConstraintLayout>

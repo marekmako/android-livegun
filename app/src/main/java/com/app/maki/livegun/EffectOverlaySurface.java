@@ -263,12 +263,11 @@ public final class EffectOverlaySurface extends SurfaceView implements SurfaceHo
          * system.
          */
         public float translateX(float x) {
-//            if (mOverlay.mFacing == CameraSource.CAMERA_FACING_FRONT) {
-//                return mOverlay.getWidth() - scaleX(x);
-//            } else {
-//                return scaleX(x);
-//            }
-            return  scaleX(x);
+            if (overlay.mCameraSource.getCameraFacing() == CameraSource.CAMERA_FACING_FRONT) {
+                return overlay.getWidth() - scaleX(x);
+            } else {
+                return scaleX(x);
+            }
         }
 
         /**
