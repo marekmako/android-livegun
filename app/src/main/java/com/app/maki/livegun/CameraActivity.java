@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -35,13 +36,15 @@ public class CameraActivity extends AppCompatActivity {
     private EffectsFaceTracker mFaceTracker;
     private FaceGraphics mFaceGraphics;
 
-    private ImageView mShotImageView;
-
     private Weapon mWeapon;
 
     private OponentHealt mOponentHealt;
 
     private int mCameraFacing;
+
+    private TextView mKillsTextView;
+
+    private Score mScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +63,15 @@ public class CameraActivity extends AppCompatActivity {
         ImageView weaponImageView = (ImageView) findViewById(R.id.iv_weapon);
         weaponImageView.setImageDrawable(mWeapon.getWeaponAnimation());
         weaponImageView.setOnClickListener(onShotListener);
-        
-        mShotImageView = (ImageView) findViewById(R.id.iv_shot);
+
+        ImageView mShotImageView = (ImageView) findViewById(R.id.iv_shot);
         mShotImageView.setImageDrawable(mWeapon.getShotAnimation());
         mWeapon.setShotImageView(mShotImageView);
         mShotImageView.setVisibility(View.INVISIBLE);
+
+        mScore = new Score(getApplicationContext());
+
+        mKillsTextView = (TextView) findViewById(R.id.tv_kills);
 
         mFaceGraphics = new FaceGraphics(getApplicationContext(), mCameraEffectsOverlay);
 
@@ -76,7 +83,9 @@ public class CameraActivity extends AppCompatActivity {
         mOponentHealt.deathListener = new OponentHealt.DeathListener() {
             @Override
             public void onDeath() {
-                Log.d("LOG", "oponent was death");
+                mFaceGraphics.onDeath();
+                // TODO: 12/03/2017 podskoci obrazovka
+                mKillsTextView.setText(String.valueOf(mScore.countKills()));
             }
         };
 
@@ -163,6 +172,8 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        mKillsTextView.setText(String.valueOf(mScore.countKills()));
 
         if (mCameraSource != null) {
             try {

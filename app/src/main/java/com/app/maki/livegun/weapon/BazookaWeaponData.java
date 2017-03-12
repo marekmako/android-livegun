@@ -13,6 +13,6 @@ public class BazookaWeaponData extends WeaponDataParcel {
                 R.drawable.anim_shot_explosion,
                 R.raw.bazooka_sound,
                 10,
-                0);
+                60);
     }
 }

@@ -15,6 +15,8 @@ public final class OponentHealt {
 
     public DeathListener deathListener = null;
 
+    private Score mScore;
+
     private int[] mDeathSoundResourcePool = new int[] {
             R.raw.death_sound1,
             R.raw.death_sound2,
@@ -26,21 +28,22 @@ public final class OponentHealt {
         mProgressBar = progressBar;
         mProgressBar.setMax(100);
         mProgressBar.setProgress(mProgressBar.getMax());
+        mScore = new Score(context);
     }
 
     public void onHit(Weapon weapon) {
         int currProgressValue = mProgressBar.getProgress() - weapon.getDemageIndex();
-        if (currProgressValue <= 0) {
-            currProgressValue = 0;
+        currProgressValue = currProgressValue < 0 ? 0 : currProgressValue;
 
-            if (isAlive) {
-                onDeath();
-            }
+        if (isAlive && currProgressValue == 0) {
+            mScore.addKill();
+            onDeath();
 
             if (deathListener != null) {
                 deathListener.onDeath();
             }
         }
+
         mProgressBar.setProgress(currProgressValue);
     }
 

@@ -16,7 +16,9 @@
         android:layout_height="0dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"
-        android:id="@+id/sv_camera_preview" />
+        android:id="@+id/sv_camera_preview"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <com.app.maki.livegun.EffectOverlaySurface
         android:id="@+id/sv_effect_overlay"
@@ -27,7 +29,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/sv_camera_preview"
         android:layout_height="0dp"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -45,7 +51,8 @@
         android:id="@+id/g_weapon_image"
         app:layout_constraintGuide_percent="0.35"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteY="119dp"
+        app:layout_constraintDimensionRatio="w,1:1"
+        tools:layout_editor_absoluteY="118dp"
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
@@ -58,7 +65,9 @@
         android:layout_width="100dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <android.support.constraint.Guideline
         android:layout_width="0dp"
@@ -87,15 +96,41 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintLeft_toLeftOf="@+id/g_pb_healt"
-        android:layout_width="0dp" />
+        android:layout_width="0dp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <android.support.constraint.Guideline
         android:layout_width="0dp"
-        android:layout_height="339dp"
+        android:layout_height="0dp"
         android:id="@+id/g_pb_healt"
         app:layout_constraintGuide_percent="0.7057101"
         android:orientation="vertical"
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="482dp" />
+
+    <TextView
+        android:id="@+id/tv_kills_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KILLS:"
+        android:textStyle="bold"
+        android:textColor="#FF0000"
+        app:layout_constraintLeft_toLeftOf="@+id/g_pb_healt"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/pb_healt" />
+
+    <TextView
+        android:id="@+id/tv_kills"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_kills_label"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_kills_label"
+        android:layout_marginBottom="0dp" />
 
 </android.support.constraint.ConstraintLayout>

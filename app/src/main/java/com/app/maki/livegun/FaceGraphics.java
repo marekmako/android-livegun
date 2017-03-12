@@ -42,17 +42,20 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
 
     private SharedSoundPool mSoundPool = SharedSoundPool.getInstance();
 
+    private boolean mIsDeath = false;
+
     FaceGraphics(@NonNull Context context, @NonNull EffectOverlaySurface overlay) {
         super(overlay);
         this.mContext = context;
-        mAvailableEffectMethods.add("drawNozCeloLave");
-        mAvailableEffectMethods.add("drawVrtackaLaveLico");
-        mAvailableEffectMethods.add("drawSekeraCeloPrave");
-        mAvailableEffectMethods.add("drawKrvaveUsta");
-        mAvailableEffectMethods.add("drawModrinaOkoLave");
-        mAvailableEffectMethods.add("drawRanaNos");
-        mAvailableEffectMethods.add("drawKrvavePraveOko");
-        mAvailableEffectMethods.add("drawRanaCeloStred");
+//        mAvailableEffectMethods.add("drawNozCeloLave");
+//        mAvailableEffectMethods.add("drawVrtackaLaveLico");
+//        mAvailableEffectMethods.add("drawSekeraCeloPrave");
+//        mAvailableEffectMethods.add("drawKrvaveUsta");
+//        mAvailableEffectMethods.add("drawModrinaOkoLave");
+//        mAvailableEffectMethods.add("drawRanaNos");
+//        mAvailableEffectMethods.add("drawKrvavePraveOko");
+//        mAvailableEffectMethods.add("drawRanaCeloStred");
+//        mAvailableEffectMethods.add("drawHovnoNaHlave");
 }
 
     public void updateFace(Face face) {
@@ -87,6 +90,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
     }
 
+    void onDeath() {
+        mIsDeath = true;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         if (mFace == null) {
@@ -104,6 +111,10 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         }
 
         synchronized (mLock) {
+            if (mIsDeath) {
+                drawDeath(canvas);
+            }
+
             for (String methodName : mUsedEffects) {
                 try {
                     Method method = this.getClass().getMethod(methodName, Canvas.class);
@@ -119,6 +130,84 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
                 }
             }
         }
+    }
+
+    private void drawDeath(Canvas canvas) {
+        Rect faceRect = getFaceRect();
+
+        // left eye
+        Point leftEyePoint = getFacePoint(Landmark.LEFT_EYE);
+        if (faceRect != null && leftEyePoint != null) {
+            Drawable leftEyeEffect = mContext.getResources().getDrawable(R.drawable.x_eye);
+            Dimension dimension = scale(
+                    new Dimension(leftEyeEffect.getIntrinsicWidth(), leftEyeEffect.getIntrinsicHeight()),
+                    new Dimension(faceRect.width(), faceRect.height()));
+
+            float effectWidth = dimension.mWidht / 10;
+            float effectHeight = dimension.mHeight / 10;
+            float left = leftEyePoint.x - effectWidth / 2;
+            float top = leftEyePoint.y - effectHeight / 2;
+            float right = left + effectWidth;
+            float bottom = top + effectHeight;
+
+            RectF rectF = new RectF(left, top, right, bottom);
+            Rect rect = new Rect();
+            rectF.round(rect);
+
+            leftEyeEffect.setBounds(rect);
+            leftEyeEffect.draw(canvas);
+        }
+
+        // right eye
+        Point rightEyePoint = getFacePoint(Landmark.RIGHT_EYE);
+        if (faceRect != null && rightEyePoint != null) {
+            Drawable rightEyeEffect = mContext.getResources().getDrawable(R.drawable.x_eye);
+            Dimension dimension = scale(
+                    new Dimension(rightEyeEffect.getIntrinsicWidth(), rightEyeEffect.getIntrinsicHeight()),
+                    new Dimension(faceRect.width(), faceRect.height()));
+
+            float effectWidth = dimension.mWidht / 10;
+            float effectHeight = dimension.mHeight / 10;
+            float left = rightEyePoint.x - effectWidth / 2;
+            float top = rightEyePoint.y - effectHeight / 2;
+            float right = left + effectWidth;
+            float bottom = top + effectHeight;
+
+            RectF rectF = new RectF(left, top, right, bottom);
+            Rect rect = new Rect();
+            rectF.round(rect);
+
+            rightEyeEffect.setBounds(rect);
+            rightEyeEffect.draw(canvas);
+        }
+    }
+
+    public void drawHovnoNaHlave(Canvas canvas) {
+        Rect faceRect = getFaceRect();
+        if (faceRect != null) {
+            Drawable effect = mContext.getResources().getDrawable(R.drawable.hovno_na_hlave);
+            Dimension dimension = scale(
+                    new Dimension(effect.getIntrinsicWidth(), effect.getIntrinsicHeight()),
+                    new Dimension(faceRect.width(), faceRect.height()));
+
+            float effectWidth = dimension.mWidht / 2;
+            float effectHeight = dimension.mHeight / 2;
+            float left = faceRect.centerX() - effectWidth / 2;
+            float top = faceRect.top - effectHeight / 2;
+            float right = left + effectWidth;
+            float bottom = top + effectHeight;
+
+            RectF rectF = new RectF(left, top, right, bottom);
+            Rect rect = new Rect();
+            rectF.round(rect);
+
+            effect.setBounds(rect);
+            effect.draw(canvas);
+        }
+    }
+
+    public void drawHovnoNaHlaveSound() {
+        playEffectSound(R.raw.effect_hovno_na_hlave_sound);
     }
 
     public void  drawRanaNos(@NonNull Canvas canvas) {
