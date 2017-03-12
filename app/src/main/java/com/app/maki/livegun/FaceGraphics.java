@@ -47,15 +47,15 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
     FaceGraphics(@NonNull Context context, @NonNull EffectOverlaySurface overlay) {
         super(overlay);
         this.mContext = context;
-//        mAvailableEffectMethods.add("drawNozCeloLave");
-//        mAvailableEffectMethods.add("drawVrtackaLaveLico");
-//        mAvailableEffectMethods.add("drawSekeraCeloPrave");
-//        mAvailableEffectMethods.add("drawKrvaveUsta");
-//        mAvailableEffectMethods.add("drawModrinaOkoLave");
-//        mAvailableEffectMethods.add("drawRanaNos");
-//        mAvailableEffectMethods.add("drawKrvavePraveOko");
-//        mAvailableEffectMethods.add("drawRanaCeloStred");
-//        mAvailableEffectMethods.add("drawHovnoNaHlave");
+        mAvailableEffectMethods.add("drawNozCeloLave");
+        mAvailableEffectMethods.add("drawVrtackaLaveLico");
+        mAvailableEffectMethods.add("drawSekeraCeloPrave");
+        mAvailableEffectMethods.add("drawKrvaveUsta");
+        mAvailableEffectMethods.add("drawModrinaOkoLave");
+        mAvailableEffectMethods.add("drawRanaNos");
+        mAvailableEffectMethods.add("drawKrvavePraveOko");
+        mAvailableEffectMethods.add("drawRanaCeloStred");
+        mAvailableEffectMethods.add("drawHovnoNaHlave");
 }
 
     public void updateFace(Face face) {
