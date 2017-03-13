@@ -42,7 +42,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private int mCameraFacing;
 
-    private TextView mKillsTextView;
+//    private TextView mKillsTextView;
 
     private Score mScore;
 
@@ -71,7 +71,7 @@ public class CameraActivity extends AppCompatActivity {
 
         mScore = new Score(getApplicationContext());
 
-        mKillsTextView = (TextView) findViewById(R.id.tv_kills);
+//        mKillsTextView = (TextView) findViewById(R.id.tv_kills);
 
         mFaceGraphics = new FaceGraphics(getApplicationContext(), mCameraEffectsOverlay);
 
@@ -85,7 +85,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onDeath() {
                 mFaceGraphics.onDeath();
                 // TODO: 12/03/2017 podskoci obrazovka
-                mKillsTextView.setText(String.valueOf(mScore.countKills()));
+//                mKillsTextView.setText(String.valueOf(mScore.countKills()));
             }
         };
 
@@ -173,7 +173,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        mKillsTextView.setText(String.valueOf(mScore.countKills()));
+//        mKillsTextView.setText(String.valueOf(mScore.countKills()));
 
         if (mCameraSource != null) {
             try {

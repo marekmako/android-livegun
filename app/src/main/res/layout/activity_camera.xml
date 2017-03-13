@@ -109,28 +109,28 @@
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="482dp" />
 
-    <TextView
-        android:id="@+id/tv_kills_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="KILLS:"
-        android:textStyle="bold"
-        android:textColor="#FF0000"
-        app:layout_constraintLeft_toLeftOf="@+id/g_pb_healt"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/pb_healt" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_kills_label"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="KILLS:"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="#FF0000"-->
+        <!--app:layout_constraintLeft_toLeftOf="@+id/g_pb_healt"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/pb_healt" />-->
 
-    <TextView
-        android:id="@+id/tv_kills"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="#FF0000"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
-        app:layout_constraintLeft_toRightOf="@+id/tv_kills_label"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_kills_label"
-        android:layout_marginBottom="0dp" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_kills"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="0"-->
+        <!--android:textColor="#FF0000"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--app:layout_constraintLeft_toRightOf="@+id/tv_kills_label"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/tv_kills_label"-->
+        <!--android:layout_marginBottom="0dp" />-->
 
 </android.support.constraint.ConstraintLayout>
