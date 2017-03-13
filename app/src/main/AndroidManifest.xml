@@ -21,8 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CameraActivity"></activity>
-        <activity android:name=".WeaponSlideActivity"></activity>
+        <activity android:name=".CameraActivity" android:screenOrientation="landscape"></activity>
+        <activity android:name=".WeaponSlideActivity" android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
