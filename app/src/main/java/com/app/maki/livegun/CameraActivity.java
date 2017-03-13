@@ -44,7 +44,7 @@ public class CameraActivity extends AppCompatActivity {
 
 //    private TextView mKillsTextView;
 
-    private Score mScore;
+//    private Score mScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class CameraActivity extends AppCompatActivity {
         mWeapon.setShotImageView(mShotImageView);
         mShotImageView.setVisibility(View.INVISIBLE);
 
-        mScore = new Score(getApplicationContext());
+//        mScore = new Score(getApplicationContext());
 
 //        mKillsTextView = (TextView) findViewById(R.id.tv_kills);
 
