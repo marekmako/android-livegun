@@ -12,6 +12,7 @@ public final class MachineGunWeaponData extends WeaponDataParcel {
                 R.drawable.anim_shot_ten,
                 R.raw.machinegun_sound,
                 10,
-                0);
+                0,
+                50);
     }
 }

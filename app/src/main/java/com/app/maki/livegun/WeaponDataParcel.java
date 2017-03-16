@@ -13,6 +13,7 @@ public class WeaponDataParcel implements Parcelable {
     private int mRawShootSound;
     private int mHitRandomIndex;
     private int mDemageIndex;
+    private int mRequiredKillsForUnlock = 0;
 
     public WeaponDataParcel(String name,
                             int drawableProfile,
@@ -20,7 +21,8 @@ public class WeaponDataParcel implements Parcelable {
                             int drawableShotAnimation,
                             int rawShotSound,
                             int hitRandomIndex,
-                            int demageIndex) {
+                            int demageIndex,
+                            int requiredKillsForFree) {
         mName = name;
         mDrawableProfile = drawableProfile;
         mDrawableWeaponAnimation = drawableWeaponAnimation;
@@ -28,6 +30,7 @@ public class WeaponDataParcel implements Parcelable {
         mRawShootSound = rawShotSound;
         mHitRandomIndex = hitRandomIndex;
         mDemageIndex = demageIndex;
+        mRequiredKillsForUnlock = requiredKillsForFree;
     }
 
     private WeaponDataParcel(Parcel source) {
@@ -38,6 +41,7 @@ public class WeaponDataParcel implements Parcelable {
         mRawShootSound = source.readInt();
         mHitRandomIndex = source.readInt();
         mDemageIndex = source.readInt();
+        mRequiredKillsForUnlock = source.readInt();
     }
 
     @Override
@@ -49,6 +53,7 @@ public class WeaponDataParcel implements Parcelable {
         dest.writeInt(mRawShootSound);
         dest.writeInt(mHitRandomIndex);
         dest.writeInt(mDemageIndex);
+        dest.writeInt(mRequiredKillsForUnlock);
     }
 
     @Override
@@ -94,5 +99,9 @@ public class WeaponDataParcel implements Parcelable {
 
     public int getDemageIndex() {
         return mDemageIndex;
+    }
+
+    public int getRequiredKillsForUnlock() {
+        return mRequiredKillsForUnlock;
     }
 }

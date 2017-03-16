@@ -13,6 +13,7 @@ public class FG42WeaponData extends WeaponDataParcel {
                 R.drawable.anim_shot_five,
                 R.raw.fg42_sound,
                 10,
-                0);
+                0,
+                25);
     }
 }

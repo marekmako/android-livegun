@@ -26,6 +26,8 @@ public class WeaponSlidePageFragment extends Fragment {
 
     private ProgressBar mLoadingWeaponProgressBar;
 
+    private Score mScore;
+
     public WeaponSlidePageFragment() {
         // Required empty public constructor
     }
@@ -41,6 +43,7 @@ public class WeaponSlidePageFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mScore = new Score(getContext());
         if (getArguments() != null) {
             mWeaponData = getArguments().getParcelable(K_WEAPON_DATA);
         }
@@ -66,7 +69,7 @@ public class WeaponSlidePageFragment extends Fragment {
         mLoadingWeaponProgressBar = (ProgressBar) view.findViewById(R.id.pb_weapon_loading);
 
 
-        if (mWeaponAdsListener.isAddLoaded()) {
+        if (isWeaponUnlocked() || mWeaponAdsListener.isAddLoaded()) {
             weaponActive();
         }
 
@@ -101,6 +104,10 @@ public class WeaponSlidePageFragment extends Fragment {
     public void weaponActive() {
         mSelectWeaponButton.setEnabled(true);
         mLoadingWeaponProgressBar.setVisibility(View.GONE);
+    }
+
+    private boolean isWeaponUnlocked() {
+        return mScore.countKills() >= mWeaponData.getRequiredKillsForUnlock();
     }
 
     interface WeaponAdsListener {

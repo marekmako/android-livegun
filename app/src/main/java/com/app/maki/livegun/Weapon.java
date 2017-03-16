@@ -14,13 +14,11 @@ class Weapon /*implements SoundPool.OnLoadCompleteListener*/ {
 
     private Context mContext;
 
+    private WeaponDataParcel mWeaponData;
+
     private AnimationDrawable mWaponAnimation;
 
     private AnimationDrawable mShotAnimation;
-
-    private int mDemageIndex;
-
-    private int mShotSoundResource;
 
     @Nullable private ImageView mShotImageView;
 
@@ -29,11 +27,10 @@ class Weapon /*implements SoundPool.OnLoadCompleteListener*/ {
 
     Weapon(Context context, WeaponDataParcel weaponParcel) {
         mContext = context;
+        mWeaponData = weaponParcel;
 
         mWaponAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableWeaponAnimation());
         mShotAnimation = (AnimationDrawable) mContext.getResources().getDrawable(weaponParcel.getDrawableShotAnimation());
-        mShotSoundResource = weaponParcel.getRawShootSound();
-        mDemageIndex = weaponParcel.getDemageIndex();
 }
 
     void setShotImageView(ImageView iv) {
@@ -49,7 +46,7 @@ class Weapon /*implements SoundPool.OnLoadCompleteListener*/ {
     }
 
     int getDemageIndex() {
-        return mDemageIndex;
+        return mWeaponData.getDemageIndex();
     }
 
     void onShot() {
@@ -101,7 +98,7 @@ class Weapon /*implements SoundPool.OnLoadCompleteListener*/ {
     }
 
     private void shotPlaySound() {
-        mSoundPool.playEffectSound(mShotSoundResource, mContext);
+        mSoundPool.playEffectSound(mWeaponData.getRawShootSound(), mContext);
     }
 
 }

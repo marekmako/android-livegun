@@ -131,13 +131,13 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
 
         private final Class[] weaponsData = new Class[] {
                 NambuWeaponData.class,
-                P99WeaponData.class,
-                FG42WeaponData.class,
                 XPR50WeaponData.class,
-                FlameMachineWeaponData.class,
-                MachineGunWeaponData.class,
-                RPGWeaponData.class,
-                BazookaWeaponData.class,
+                P99WeaponData.class, // 10 kills
+                FG42WeaponData.class, // 25
+                MachineGunWeaponData.class, // 50
+                FlameMachineWeaponData.class, // 75
+                RPGWeaponData.class, // 100
+                BazookaWeaponData.class, //150
         };
 
         public WeaponSlideAdapter(FragmentManager fm) {

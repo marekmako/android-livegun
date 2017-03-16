@@ -12,6 +12,7 @@ public final class XPR50WeaponData extends WeaponDataParcel {
                 R.drawable.anim_shot_five,
                 R.raw.xpr50_sound,
                 10,
+                0,
                 0);
     }
 }
