@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">livegun</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_video_weapon_id">ca-app-pub-3278005872817682/6657898274</string>
 </resources>

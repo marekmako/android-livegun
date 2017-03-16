@@ -12,6 +12,7 @@ public class NambuWeaponData extends WeaponDataParcel {
                 R.drawable.anim_shot_one,
                 R.raw.nambu_shot,
                 10,
-                5);
+                5,
+                0);
     }
 }
