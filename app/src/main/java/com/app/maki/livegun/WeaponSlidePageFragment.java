@@ -1,11 +1,11 @@
 package com.app.maki.livegun;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,33 @@ public class WeaponSlidePageFragment extends Fragment {
     private ProgressBar mLoadingWeaponProgressBar;
 
     private Score mScore;
+
+    private boolean mWeaponUnlockedByAd = false;
+
+    private View.OnClickListener mSelectedWeaponButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (isWeaponUnlocked() && getActivity() instanceof WeaponSlideActivity) {
+                weaponSelected();
+
+            } else {
+                // TODO: 16/03/2017 dokoncit alert pre reklamu 
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                alertBuilder.setTitle("Title");
+                alertBuilder.setMessage("Message");
+                alertBuilder.setPositiveButton("Watch to unlock", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (getActivity() instanceof WeaponSlideActivity) {
+                            ((WeaponSlideActivity) getActivity()).showAdd();
+                        }
+                    }
+                });
+                alertBuilder.setNegativeButton("Cancel", null);
+                alertBuilder.show();
+            }
+        }
+    };
 
     public WeaponSlidePageFragment() {
         // Required empty public constructor
@@ -63,7 +90,7 @@ public class WeaponSlidePageFragment extends Fragment {
         }
 
         mSelectWeaponButton = (Button) view.findViewById(R.id.b_selected_weapon);
-        mSelectWeaponButton.setOnClickListener(selectedWeaponButtonClickListener);
+        mSelectWeaponButton.setOnClickListener(mSelectedWeaponButtonClickListener);
         mSelectWeaponButton.setEnabled(false);
 
         mLoadingWeaponProgressBar = (ProgressBar) view.findViewById(R.id.pb_weapon_loading);
@@ -76,15 +103,6 @@ public class WeaponSlidePageFragment extends Fragment {
         return view;
     }
 
-    private View.OnClickListener selectedWeaponButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (getActivity() instanceof WeaponSlideActivity) {
-                WeaponSlideActivity weaponSlideActivity = (WeaponSlideActivity) getActivity();
-                weaponSlideActivity.onWeaponDidSelect(mWeaponData);
-            }
-        }
-    };
 
     @Override
     public void onAttach(Context context) {
@@ -106,8 +124,24 @@ public class WeaponSlidePageFragment extends Fragment {
         mLoadingWeaponProgressBar.setVisibility(View.GONE);
     }
 
+    public void weaponInactive() {
+        if (!isWeaponUnlocked()) {
+            mSelectWeaponButton.setEnabled(false);
+            mLoadingWeaponProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void setWeaponUnlockedByAd() {
+        mWeaponUnlockedByAd = true;
+    }
+
     private boolean isWeaponUnlocked() {
-        return mScore.countKills() >= mWeaponData.getRequiredKillsForUnlock();
+        return (mScore.countKills() >= mWeaponData.getRequiredKillsForUnlock() || mWeaponUnlockedByAd);
+    }
+
+    void weaponSelected() {
+        WeaponSlideActivity weaponSlideActivity = (WeaponSlideActivity) getActivity();
+        weaponSlideActivity.onWeaponDidSelect(mWeaponData);
     }
 
     interface WeaponAdsListener {

@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.maki.livegun.weapon.BazookaWeaponData;
@@ -34,7 +33,7 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
 
     private RewardedVideoAd mAd;
 
-    private boolean mWeaponIdLoaded = false;
+    private boolean mWeaponIsLoaded = false;
 
     private WeaponSlideAdapter mAdapter;
 
@@ -44,7 +43,7 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
         @Override
         public void onRewardedVideoAdLoaded() {
             Log.d("ADS", "onRewardedVideoAdLoaded");
-            mWeaponIdLoaded = true;
+            mWeaponIsLoaded = true;
             mAdapter.getFragmentAt(mCurrPagePosition).weaponActive();
         }
 
@@ -61,11 +60,17 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
         @Override
         public void onRewardedVideoAdClosed() {
             Log.d("ADS", "onRewardedVideoAdClosed");
+            mWeaponIsLoaded = false;
+            mAdapter.getFragmentAt(mCurrPagePosition).weaponInactive();
+            mAd.loadAd(getResources().getString(R.string.add_video_weapon_id), new AdRequest.Builder().build());
         }
 
         @Override
         public void onRewarded(RewardItem rewardItem) {
             Log.d("ADS", "onRewarded");
+            WeaponSlidePageFragment fragment = mAdapter.getFragmentAt(mCurrPagePosition);
+            fragment.setWeaponUnlockedByAd();
+            fragment.weaponSelected();
         }
 
         @Override
@@ -76,7 +81,7 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
         @Override
         public void onRewardedVideoAdFailedToLoad(int i) {
             Log.d("ADS", "onRewardedVideoAdFailedToLoad");
-            mWeaponIdLoaded = true;
+            mWeaponIsLoaded = true;
             mAdapter.getFragmentAt(mCurrPagePosition).weaponActive();
         }
     };
@@ -121,7 +126,9 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
         finish();
     }
 
-
+    public void showAdd() {
+        mAd.show();
+    }
 
 
 
@@ -188,6 +195,6 @@ public class WeaponSlideActivity extends FragmentActivity implements WeaponSlide
 
     @Override
     public boolean isAddLoaded() {
-        return mWeaponIdLoaded;
+        return mWeaponIsLoaded;
     }
 }

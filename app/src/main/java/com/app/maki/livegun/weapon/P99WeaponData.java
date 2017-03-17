@@ -12,7 +12,7 @@ public class P99WeaponData extends WeaponDataParcel {
                 R.drawable.anim_shot_one,
                 R.raw.p99_shot,
                 10,
-                0,
+                1,
                 10);
     }
 }
