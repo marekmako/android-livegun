@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
 
@@ -16,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
 
     private int mCameraFacing = CameraSource.CAMERA_FACING_BACK;
     public static final String K_CAMERA_FACING = "K_CAMERA_FACING";
+
+    private Score mScore;
+    private TextView mKillTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button scuicideModeButton = (Button) findViewById(R.id.b_scuicide_mode);
         scuicideModeButton.setOnClickListener(scuicideModeButtonClickListener);
+
+        mScore = new Score(getApplicationContext());
+        mKillTextView = (TextView) findViewById(R.id.tv_killed);
     }
 
     private View.OnClickListener oponentModeButtonClickListener = new View.OnClickListener() {
@@ -74,5 +81,12 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         mCameraFacing = savedInstanceState.getInt(K_CAMERA_FACING);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mKillTextView.setText(String.valueOf(mScore.countKills()));
     }
 }
