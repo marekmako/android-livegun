@@ -33,7 +33,14 @@
         android:id="@+id/b_selected_weapon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_select_weapon"
+        android:layout_marginLeft="8dp"
+        android:textColor="#00FF00"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toLeftOf="@+id/g_iv_weapon"
+        android:layout_marginRight="8dp" />
 
     <ImageView
         android:layout_width="0dp"
