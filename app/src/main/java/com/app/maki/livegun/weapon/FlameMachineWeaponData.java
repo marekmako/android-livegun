@@ -12,8 +12,8 @@ public class FlameMachineWeaponData extends WeaponDataParcel {
                 R.drawable.anim_flame_machine,
                 R.drawable.anim_shot_flame,
                 R.raw.flame_machine,
-                10,
-                0,
+                7,
+                35,
                 75);
     }
 }

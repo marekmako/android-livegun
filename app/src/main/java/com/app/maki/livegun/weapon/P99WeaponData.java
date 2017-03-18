@@ -11,8 +11,8 @@ public class P99WeaponData extends WeaponDataParcel {
                 R.drawable.anim_p99,
                 R.drawable.anim_shot_one,
                 R.raw.p99_shot,
+                3,
                 10,
-                1,
                 10);
     }
 }
