@@ -63,8 +63,13 @@ class FaceGraphics extends EffectOverlaySurface.Graphic {
         postInvalidate();
     }
 
-    void onHit() {
+    void onHit(Weapon weapon) {
         synchronized (mLock) {
+            final int randEffectIndex = mRandom.nextInt(9) + 1;
+            if (randEffectIndex > weapon.getRandomEffectIndex()) {
+                return;
+            }
+
             if (mAvailableEffectMethods.size() > 0) {
                 int index = mRandom.nextInt(mAvailableEffectMethods.size());
 

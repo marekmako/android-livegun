@@ -49,6 +49,11 @@ class Weapon /*implements SoundPool.OnLoadCompleteListener*/ {
         return mWeaponData.getDemageIndex();
     }
 
+    int getRandomEffectIndex() {
+        return mWeaponData.getHitRandomIndex();
+    }
+
+
     void onShot() {
         shotAnimate();
         weaponAnimate();

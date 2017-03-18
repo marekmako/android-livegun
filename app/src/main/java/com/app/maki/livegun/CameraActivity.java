@@ -106,7 +106,7 @@ public class CameraActivity extends AppCompatActivity {
 
             if (hitTarget()) {
                 mCameraEffectsOverlay.onHit();
-                mFaceGraphics.onHit();
+                mFaceGraphics.onHit(mWeapon);
                 mOponentHealt.onHit(mWeapon);
             }
         }
